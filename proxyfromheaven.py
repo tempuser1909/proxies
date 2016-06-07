@@ -10,9 +10,10 @@ import sys
 
 # Changing the buffer_size and delay, you can improve the speed and bandwidth.
 # But when buffer get to high or delay go too down, you can broke things
+args = sys.argv
 buffer_size = 4096
 delay = 0.0001
-forward_to = ('smtp.zaz.ufsk.br', 25)
+forward_to = (args[0], int(args[2]))
 
 class Forward:
     def __init__(self):
@@ -89,7 +90,7 @@ class TheServer:
         self.channel[self.s].send(data)
 
 if __name__ == '__main__':
-        server = TheServer('', 9090)
+        server = TheServer('', int(args[1]))
         try:
             server.main_loop()
         except KeyboardInterrupt:
