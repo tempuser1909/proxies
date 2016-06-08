@@ -13,7 +13,9 @@ import sys
 args = sys.argv
 buffer_size = 4096
 delay = 0.0001
-forward_to = (args[0], int(args[2]))
+# python proxyfromheaven server_addr proxy_port server_port
+# python proxyfromheaven.py localhost 8888 5000
+forward_to = (args[1], int(args[3]))
 
 class Forward:
     def __init__(self):
@@ -86,11 +88,16 @@ class TheServer:
     def on_recv(self):
         data = self.data
         # here we can parse and/or modify the data before send forward
-        print data
+        fromAddr = self.s.getpeername()
+        if fromAddr == forward_to:
+            print 'Server to %s: %s' % (str(self.channel[self.s].getpeername()), data.strip())
+        else:
+            print '%s: %s' % (str(fromAddr), data.strip())
+
         self.channel[self.s].send(data)
 
 if __name__ == '__main__':
-        server = TheServer('', int(args[1]))
+        server = TheServer('', int(args[2]))
         try:
             server.main_loop()
         except KeyboardInterrupt:
