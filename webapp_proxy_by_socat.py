@@ -1,6 +1,18 @@
 #!/usr/bin/python
 import urllib2
 
+# HOW TO RUN with socat
+#  $ chmod +x webapp_proxy_by_socat.py
+#  $ socat TCP4-listen:1337,reuseaddr,fork EXEC:./webapp_proxy_by_socat.py
+#
+#  Meaning:
+#	- Listen at Port 1337/tcp
+#	- allows reusing of address
+#	- can create forks (child for multi-threading)
+#	- executes python script
+#  Note: man socat for more info (PS. requires installation of socat)
+#########################
+
 # open random socket to connect to web server (random, everytime you run this program)
 #s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 http_method = ""
